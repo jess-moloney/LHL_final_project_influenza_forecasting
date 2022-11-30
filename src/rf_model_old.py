@@ -1,6 +1,4 @@
 import numpy as np
-import pandas as pd
-import pickle
 from sklearn.ensemble import RandomForestRegressor
 seed_value = 2022
 
@@ -14,9 +12,8 @@ plt.rcParams['figure.figsize'] = [20, 10]
 import sys
 sys.path.append(r"C:\Users\User\Documents\projects\LHL_final_project_influenza_forecasting\src")
 from evaluate_model import *
-from retrieve_name import *
 
-def rf_model(data, weeks_to_predict, max_depth, df_name):
+def rf_model(data, weeks_to_predict, max_depth):
     """
         Split data, then train, fit, evaluate and plot an Random Forest model for a specified number of weeks ahead to forecast
         
@@ -26,9 +23,10 @@ def rf_model(data, weeks_to_predict, max_depth, df_name):
             max_depth (int): The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples.
             
         Returns:
-            printout of shape of training X and y, shape of test X and y, plot of forecast, result_matrix with MSE, RMSE, MAE for train and test sets appended
+            Shape of training X and y, Shape of test X and y, MSE, RMSE, MAE for train and test sets, plot of forecast
 
     """ 
+       
     # split into train and test
     X = data.loc[:, data.columns != 'Total Cases']
     y = data['Total Cases']
@@ -68,18 +66,5 @@ def rf_model(data, weeks_to_predict, max_depth, df_name):
     plt.plot(data.index, data['Total Cases'].values)
     plt.plot(data.index[-weeks_to_predict:], preds_test, color='red')
 
-    results = evaluate_model(test=test_y, predictions_test=preds_test, train=train_y, predictions_train=preds_train)
-
-
-
-    results.insert(0, retrieve_name(rf))
-    results.insert(1, df_name)
-    results.insert(2, weeks_to_predict)
-
-    results_matrix = pickle.load(open(r"..\data\results_matrix.pkl", "rb" ))
-
-    results_matrix = pd.concat([results_matrix.T, pd.Series(results, index=results_matrix.columns)], axis=1).T
-
-    pickle.dump(results_matrix, open(r"..\data\results_matrix.pkl", "wb" ))
-
-    return results_matrix
+    # evaluate
+    evaluate_model(test=test_y, predictions_test=preds_test, train=train_y, predictions_train=preds_train)

@@ -18,25 +18,22 @@ def evaluate_model(test, predictions_test, train=None, predictions_train=None):
         print out of training and test scores
 
    """ 
-    results = []
-
+    
     if train.any():
         # Evaluate training set
         MSE_train = round(mean_squared_error(train, predictions_train),3)
         RMSE_train = round(mean_squared_error(train, predictions_train, squared=False),3)
         MAE_train = round(mean_absolute_error(train, predictions_train),3)
 
-        results.append(MSE_train)
-        results.append(RMSE_train)
-        results.append(MAE_train)
+        print(f'Train MSE: {MSE_train}')
+        print(f'Train RMSE: {RMSE_train}')
+        print(f'Train MAE: {MAE_train}') 
     
     # Evaluate test set
     MSE_test = round(mean_squared_error(test, predictions_test),3)
     RMSE_test = round(mean_squared_error(test, predictions_test, squared=False),3)
     MAE_test = round(mean_absolute_error(test, predictions_test),3)
 
-    results.append(MSE_test)
-    results.append(RMSE_test)
-    results.append(MAE_test)
-
-    return results
+    print(f'Test MSE: {MSE_test}')
+    print(f'Test RMSE: {RMSE_test}')
+    print(f'Test MAE: {MAE_test}')
