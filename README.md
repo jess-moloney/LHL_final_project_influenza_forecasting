@@ -4,13 +4,9 @@
 The aim of this project is to use supervised machine learning to predict the number of laboratory-confirmed influenza detections in Canada, 1, 2, 3, and 4 weeks in advance.
 
 ## Dataset
-The dataset used for this project was retrieved from the Government of Canada weekly Fluwatch surveillance reports (https://www.canada.ca/en/public-health/services/diseases/flu-influenza/influenza-surveillance/weekly-influenza-reports.html).
+The dataset used for this project includes 377 weekly records from the 2015/2016 influenza season to present. Each record includes the number of confirmed detections for Influenza A (unsubtyped, H3N2, and H1N1), and Influenza B. Detections are reported to the Public Health Agency of Canada by 35 sentinel laboratories across the country, and compiled in the Government of Canada weekly Fluwatch surveillance reports (https://www.canada.ca/en/public-health/services/diseases/flu-influenza/influenza-surveillance/weekly-influenza-reports.html).
 
-Weekly laboratory-confirmed detections were available to download as csv files for the 2015/2016 and 2016/2017 influenza seasons from the Government of Canada Open data Portal (https://search.open.canada.ca/en/od/?search_text=fluwatch). Data for subsequent seasons was retrieved directly from the final weekly influenza report for each influenza season (Laboratory-Confirmed Influenza Detections section). 
-
-Detections are reported to the Public Health Agency of Canada by 35 sentinel laboratories.
-
-The data includes 377 weekly records from the 2015/2016 influenza season to present. Each record includes the number of confirmed detections for Influenza A (unsubtyped, H3N2, and H1N1), and Influenza B. 
+Weekly laboratory-confirmed detections were available to download as csv files for the 2015/2016 and 2016/2017 influenza seasons from the Government of Canada Open Data Portal (https://search.open.canada.ca/en/od/?search_text=fluwatch). Data for subsequent seasons was retrieved directly from the final weekly influenza report for each influenza season (Laboratory-Confirmed Influenza Detections section). 
 
 ## Motivation
 Globally, an estimated 250,000 to 650,000 people die annually from influenza, and 3-5 million people suffer from severe illness. In Canada, there are approximately 7,000 influenza deaths every year (https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310039401). 
