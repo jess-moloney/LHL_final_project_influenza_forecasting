@@ -20,13 +20,13 @@ Because influenza is such a significant health threat, efforts to accurately for
 Before looking at the data, I hypothesized that the following would be predictors of influenza detections:
 
 1. Number of search engine queries for flu symptoms
-    - anticipated a positive correlation between flu cases and flu symptom searches because individuals sick with these symptoms would be more likely to look them up online
+    - I anticipated a positive correlation between flu cases and flu symptom searches because individuals sick with these symptoms would be more likely to look them up online
 2. Number of engine queries for COVID-related terms
-    - anticipated a negative correlation between flu cases and COVID-related terms because of reports that measures implemented to prevent the spread of COVID were also effective at preventing spread of much less virulent influenza virus 
+    - I anticipated a negative correlation between flu cases and COVID-related terms because of reports that measures implemented to prevent the spread of COVID were also effective at preventing spread of much less virulent influenza virus 
 3. Number of Canadians vaccinated against influenza
-    - anticipated a negative correlation between influenza detections and influenza vaccinations because of higher population immunity against the virus
+    - I anticipated a negative correlation between influenza detections and influenza vaccinations because of higher population immunity against the virus
 4. Movement of individuals
-    - anticipated a positive correlation between flu cases and movement because influenza virus is spread through respiratory droplets during person-to-person contact.
+    - I anticipated a positive correlation between flu cases and movement because influenza virus is spread through respiratory droplets during person-to-person contact.
 
 To test these hypotheses, I collected the following datasets:
 
@@ -58,7 +58,7 @@ I will examine whether search engine queries, mobility data and health indicator
     - COVID time series with and without subtypes
 
 ### Step 2 - Exploratory Data Analysis:
-Before building forecasts, I conducted some time series analysis to better understand the data.
+Before building forecasts, I conducted some time series analyses to better understand the data.
 
 First, I plotted the data to get a sense of overall trends:
 ![subtype](visualizations/influenza_cases_subtype.png)
@@ -93,7 +93,7 @@ Next, I made note of some general descriptive statistics. Because of the clear d
 
 ### Step 7 - Building Supervised Learning Models
 
-### Step 8 - Ensemble Model
+### Step 8 - Ensemble Models
 
 ### Step 9 - Hyperparameter Tuning
 
