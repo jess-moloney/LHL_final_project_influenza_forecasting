@@ -16,7 +16,7 @@ sys.path.append(r"C:\Users\User\Documents\projects\LHL_final_project_influenza_f
 from evaluate_model import *
 from retrieve_name import *
 
-def rf_model(data, weeks_to_predict, max_depth, df_name):
+def rf_model(data, weeks_to_predict, df_name, max_depth=None):
     """
         Split data, then train, fit, evaluate and plot an Random Forest model for a specified number of weeks ahead to forecast
         

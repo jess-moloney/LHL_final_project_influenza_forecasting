@@ -4,9 +4,9 @@
 The aim of this project is to use supervised machine learning to predict the number of laboratory-confirmed influenza detections in Canada, 1, 2, 3, and 4 weeks in advance.
 
 ## Dataset
-The dataset used for this project includes 377 weekly records from the 2015/2016 influenza season to present. Each record includes the number of confirmed detections for Influenza A (unsubtyped, H3N2, and H1N1), and Influenza B. Detections are reported to the Public Health Agency of Canada by 35 sentinel laboratories across the country, and compiled in the Government of Canada weekly Fluwatch surveillance reports (https://www.canada.ca/en/public-health/services/diseases/flu-influenza/influenza-surveillance/weekly-influenza-reports.html).
+The dataset used for this project includes 377 weekly records from the 2015/2016 influenza season to present. Each record includes the number of confirmed detections for Influenza A (unsubtyped, H3N2, and H1N1), and Influenza B. Detections are reported to the Public Health Agency of Canada by sentinel laboratories across the country, and compiled in the Government of Canada weekly Fluwatch surveillance reports (https://www.canada.ca/en/public-health/services/diseases/flu-influenza/influenza-surveillance/weekly-influenza-reports.html).
 
-Weekly laboratory-confirmed detections were available to download as csv files for the 2015/2016 and 2016/2017 influenza seasons from the Government of Canada Open Data Portal (https://search.open.canada.ca/en/od/?search_text=fluwatch). Data for subsequent seasons was retrieved directly from the final weekly influenza report for each influenza season (Laboratory-Confirmed Influenza Detections section). 
+Weekly laboratory-confirmed detections were available to download as csv files for the 2015/2016 and 2016/2017 influenza seasons from the Government of Canada Open Data Portal (https://search.open.canada.ca/en/od/?search_text=fluwatch). Data for subsequent seasons was retrieved directly from the final weekly influenza report for each influenza season (Laboratory-Confirmed Influenza Detections section).
 
 ## Motivation
 Globally, an estimated 250,000 to 650,000 people die annually from influenza, and 3-5 million people suffer from severe illness. In Canada, there are approximately 7,000 influenza deaths every year (https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310039401). 
@@ -58,7 +58,7 @@ I will examine whether search engine queries, mobility data and health indicator
     - COVID time series with and without subtypes
 
 ### Step 2 - Exploratory Data Analysis:
-Before building forecasts, I conducted some time series analyses to better understand the data.
+Before building forecasts, I conducted time series analyses to better understand the data.
 
 First, I plotted the data to get a sense of overall trends:
 ![subtype](visualizations/influenza_cases_subtype.png)
@@ -69,7 +69,7 @@ There are several striking aspects to this plot:
 - the number of cases during the 2021/2022 influenza cases is significantly lower than in previous years, and occurred later in the year
 - the number of cases in the most recent weekly report for the 2022/2023 influenza season (5,460) has already surpassed the peak of cases in the previous 7 influenza seasons shown.
 
-Next, I made note of some general descriptive statistics. Because of the clear disruption to the time series beginning in March 2020, I have reported these statistics three ways: over the entire dataset, during the period prior to the COVID-19 pandemic, and during the period since the beginning of the COVID-19 pandemic.
+Next, I made note of general descriptive statistics. Because of the clear disruption to the time series beginning in March 2020, I have reported these statistics three ways: over the entire dataset, during the period prior to the COVID-19 pandemic, and during the period since the beginning of the COVID-19 pandemic.
 1. Baseline (mean) flu level (bar plot for these?):
     - September 2015 to March 2020: 1010 laboratory-confirmed cases per week.
     - March 2020 to present: 276 laboratory-confirmed cases per week.
