@@ -1,42 +1,47 @@
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import pickle
+import pandas as pd
+import os.path
 
-def evaluate_model(test, predictions_test, train=None, predictions_train=None):
-    """
-    Calculate MSE_train, RMSE_train, MAE_train, and MSE_test, RMSE_test, MAE_test to evaluate time series forecast
+def evaluate_model(train, test, preds_train, preds_test, dataset, forecast_weeks, model):
+  
+    # evaluate
+    MSE_train = round(mean_squared_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1]),2)
+    MSE_test = round(mean_squared_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1]),2)
+    RMSE_train = round(mean_squared_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1], squared=False),2)
+    RMSE_test = round(mean_squared_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1], squared=False),2)
+    MAE_train = round(mean_absolute_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1]),2)
+    MAE_test = round(mean_absolute_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1]),2)
+    R2_train = r2_score(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1])
+    R2_test = r2_score(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1])
 
-    MSE - weights large errors more than smaller ones, good for penalizing large errors, loses unit because squared
-    RMSE - more interpretable than MSE because avoids losing units, also penalizes large errors
-    MAE - doesn't penalize large errors as much
-
-    Args:
-        train (list of int, optional): values of the training set
-        test (list of int): values of the test set
-        predictions_train (list of int, optional): predicted values for the training set
-        predictions_test (list of int, optional): predicted values for the test set
-
-    Returns:
-        print out of training and test scores
-
-   """ 
     results = []
 
-    if train.any():
-        # Evaluate training set
-        MSE_train = round(mean_squared_error(train, predictions_train),3)
-        RMSE_train = round(mean_squared_error(train, predictions_train, squared=False),3)
-        MAE_train = round(mean_absolute_error(train, predictions_train),3)
-
-        results.append(MSE_train)
-        results.append(RMSE_train)
-        results.append(MAE_train)
-    
-    # Evaluate test set
-    MSE_test = round(mean_squared_error(test, predictions_test),3)
-    RMSE_test = round(mean_squared_error(test, predictions_test, squared=False),3)
-    MAE_test = round(mean_absolute_error(test, predictions_test),3)
-
+    results.append(MSE_train)
     results.append(MSE_test)
+    results.append(RMSE_train)
     results.append(RMSE_test)
+    results.append(MAE_train)
     results.append(MAE_test)
+    results.append(R2_train)
+    results.append(R2_test)
+   
+    results.insert(0, model)
+    results.insert(1, dataset)
+    results.insert(2, forecast_weeks)
+    # results.insert(-1, train.columns)
 
-    return results
+    file_name = r"..\data\results_matrix_" + model + ".pkl"
+
+    if os.path.exists(file_name) == False:
+
+        results_matrix = pd.DataFrame(columns=['Model','Dataset','Weeks-ahead Forecast','MSE_train','MSE_test','RMSE_train','RMSE_test','MAE_train','MAE_test','R2_train','R2_test'])
+        pickle.dump(results_matrix, open(file_name, "wb" ))
+
+    results_matrix = pickle.load(open(file_name, "rb" ))
+   
+    results_matrix = pd.concat([results_matrix.T, pd.Series(results, index=results_matrix.columns)], axis=1).T
+
+    pickle.dump(results_matrix, open(file_name, "wb" ))
+
+    return results_matrix
