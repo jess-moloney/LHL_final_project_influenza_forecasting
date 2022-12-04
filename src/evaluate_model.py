@@ -6,14 +6,23 @@ import os.path
 def evaluate_model(train, test, preds_train, preds_test, dataset, forecast_weeks, model):
   
     # evaluate
-    MSE_train = round(mean_squared_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1]),2)
-    MSE_test = round(mean_squared_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1]),2)
-    RMSE_train = round(mean_squared_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1], squared=False),2)
-    RMSE_test = round(mean_squared_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1], squared=False),2)
-    MAE_train = round(mean_absolute_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1]),2)
-    MAE_test = round(mean_absolute_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1]),2)
-    R2_train = r2_score(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1])
-    R2_test = r2_score(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1])
+    MSE_train = round(mean_squared_error(train, preds_train),2)
+    MSE_test = round(mean_squared_error(test, preds_test),2)
+    RMSE_train = round(mean_squared_error(train, preds_train, squared=False),2)
+    RMSE_test = round(mean_squared_error(test, preds_test, squared=False),2)
+    MAE_train = round(mean_absolute_error(train, preds_train),2)
+    MAE_test = round(mean_absolute_error(test, preds_test),2)
+    R2_train = r2_score(train, preds_train)
+    R2_test = r2_score(test, preds_test)
+
+    # MSE_train = round(mean_squared_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1]),2)
+    # MSE_test = round(mean_squared_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1]),2)
+    # RMSE_train = round(mean_squared_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1], squared=False),2)
+    # RMSE_test = round(mean_squared_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1], squared=False),2)
+    # MAE_train = round(mean_absolute_error(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1]),2)
+    # MAE_test = round(mean_absolute_error(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1]),2)
+    # R2_train = r2_score(train.iloc[:,forecast_weeks-1], preds_train[:,forecast_weeks-1])
+    # R2_test = r2_score(test.iloc[:,forecast_weeks-1], preds_test[:,forecast_weeks-1])
 
     results = []
 
