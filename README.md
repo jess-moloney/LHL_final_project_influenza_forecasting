@@ -150,13 +150,13 @@ Next, I tried a statistical forecasting method called ARIMA to forecast cases.
 
 This model accepts three parameters: p, d and q.
 
-The parameter p is related to the partial autocorrelation of lagged values. The optimal p value is chosen by selecting the time lag after which partial autocorrelation is no longer significant (aka has no effect on the current value). Based on the partial autocorrelation plot for both the pre-COVID and full time series, I chose a p value of 2 for both models.
+The *parameter p* is related to the partial autocorrelation of lagged values. The optimal p value is chosen by selecting the time lag after which partial autocorrelation is no longer significant (aka has no effect on the current value). Based on the partial autocorrelation plot for both the pre-COVID and full time series, I chose a p value of 2 for both models.
 
-The parameter d is related to the stationarity of the time series. Statistical methods are based on the assumption that the time series is approximately stationary, that is, that the statistical properties of the time series (mean, standard deviation, etc.), do not depend on time. If the time series is not stationary, the optimal d value is chosen by selecting the number of times differencing needs to be applied in order for the time series to become stationary.  This can be assessed by determining if the time series passes the ADF test.  Both the pre-COVID and full time series passed the ADF test for stationarity, so I used a d value of 0 for both models.
+The *parameter d* is related to the stationarity of the time series. Statistical methods are based on the assumption that the time series is approximately stationary, that is, that the statistical properties of the time series (mean, standard deviation, etc.), do not depend on time. If the time series is not stationary, the optimal d value is chosen by selecting the number of times differencing needs to be applied in order for the time series to become stationary.  This can be assessed by determining if the time series passes the ADF test.  Both the pre-COVID and full time series passed the ADF test for stationarity, so I used a d value of 0 for both models.
 
-The parameter q is related to the past prediction errors of the model. The optimal q value is chosen by selecting the time lag after which autocorrelation is no longer significant.  Based on the autocorrelation plot for both the pre-COVID and full time series, I chose a q value of 6 for both models. 
+The *parameter q* is related to the past prediction errors of the model. The optimal q value is chosen by selecting the time lag after which autocorrelation is no longer significant.  Based on the autocorrelation plot for both the pre-COVID and full time series, I chose a q value of 6 for both models. 
 
-Although both models fit the training set well, they were both very inaccurate on the test set and performed more poorly than the moving average model.
+Although both models fit the training set well, they were both inaccurate on the test set and performed more poorly than the moving average model.
 
 ![Pre-COVID](visualizations/Pre-COVID_ARIMA_1_week.png)
 
@@ -165,42 +165,107 @@ Although both models fit the training set well, they were both very inaccurate o
 ![Both](visualizations/Full_TimeSeries_ARIMA_1_week_metrics.png)
 
 ### Step 6 - Feature Engineering
-Health Indicators:
-To identify if health indicators had an effect on the following year's influenza cases, I plotted a correlation matrix showing the relationship between each indicator and total cases.
+To build a supervised learning model, I identified features that were correlated with total flu cases.
 
-Prior to the COVID-19 pandemic, there are some weak correlations between health indicators and influenza cases, with the Diabetes being the most highly correlated with influenza cases (R2 = 0.35). Influenza immunization in the past year and influenza cases are also weakly correlated (R2 = 0.31).
+**Date Time, Lag, Window Features:**
+First, I engineered features using the influenza time series itself.
 
-![Health Indicators](visualizations/correlation_matrix_health_indicators.png)
+**Year:** Mean weekly cases are relatively stable across the years in the time series, with the notable exceptions of 2018 (a particularly bad influenza season), and 2021 (during the height of the COVID-19 pandemic).
+![Year](visualizations/mean_weekly_cases_year.png)
+
+**Month:**
+![Month](visualizations/mean_weekly_cases_month.png)
+
+**Season:**
+![Season](visualizations/mean_weekly_cases_season.png)
+
+The other features based on the influenza dataset are:
+- weekly cases from the seven previous weeks
+- two-week moving average
+- expanding mean
+- weekly cases from the same week of the previous year
+
+**Health Indicators:**
+<!-- To identify if health indicators had an effect on the following year's influenza cases, I plotted a correlation matrix showing the relationship between each indicator and total cases. -->
+
+Prior to the COVID-19 pandemic, there are some weak correlations between health indicators and influenza cases, with Diabetes being the most highly correlated with influenza cases (R = 0.35). Influenza immunization in the past year and influenza cases are also weakly correlated (R = 0.31).
+
+![Health Indicators](visualizations/Pre-COVID_correlation_matrix_health_indicators.png)
 
 Across the full time series, there is no correlation between health indicators and influenza cases.
 
 ![Health Indicators](visualizations/Full_TimeSeries_correlation_matrix_health_indicators.png)
 
-Air Traffic:
+**Air Traffic:**
+As expected, there is a steep decline in air traffic at the beginning of the COVID-19 pandemic. Prior to the pandemic, there is a seasonal pattern in air traffic, with volume peaking in the summer months.
+![Air Traffic](visualizations/Air_Travel_Influenza_Cases.png)
 
+Between September 2015 and March 2020, there is a moderate negative correlation between air traffic volume and influenza cases (R values between -0.5 to -0.6). 
+<!-- ![Air Traffic, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_air_traffic.png) -->
 
-Urban Transit:
+Over the time series as a whole, the relationship is in the opposite direction, with a weak positive correlation between air traffic volume and influenza cases (R values between 0.19 and 0.32).
+<!-- ![Air Traffic, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_air_traffic.png) -->
 
-Google Trends - Flu Symptoms:
+**Urban Transit:**
+There was a steep decline in urban transit use in March 2020.  Although ridership has been slowly increasing, it is still far below the pre-pandemic levels. Prior to the pandemic, there does not appear to be a clear trend or seasonal pattern in urban transit use.
+![Urban Transit](visualizations/Urban_Transit_Influenza_Cases.png)
 
-Google Trends - COVID Terms:
+Prior to March 2020, there is a weak positive correlation between urban transit ridership and total influenza cases (R = 0.25).
 
+Over the full time series, the positive correlation is stronger, with an R value of 0.45.
+
+**Google Trends - Flu Symptoms:**
+Prior to March 2020, Google searches for most flu symptoms (except fatigue and diarrhea) were highly correlated with total influenza cases.  The search terms 'fever', 'cough', and 'body aches' were most highly correlated, with R values of 0.81, 0.79 and 0.75 respectively.
+![Flu Symptoms, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_flu_symptoms.png)
+
+When dates after March 2020 are included in the time series, these correlations are greatly reduced or disappear.
+![Flu Symptoms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_flu_symptoms.png)
+
+**Google Trends - COVID Terms:**
+There are some weak correlations between COVID-19-related terminology and influenza cases prior to March 2020 (e.g., mask, coronavirus, quarantine). Other terms (e.g., lockdown, social distancing, COVID), are not correlated with influenza cases during this time period. This is to be expected, as some of these terms would have been unused or uncommon prior to March 2020.
+![COVID terms, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_COVID_terms.png)
+
+Across the full time series, there are weak negative correlations between Google searches for 'COVID-19 terms' and influenza cases.
+![COVID terms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_COVID_terms.png)
 
 ### Step 7 - Building Supervised Learning Models
 
-### Step 8 - Ensemble Models
+Tried a variety of Regression Models:
+- Linear Regression
+- K-Nearest Neighbours Regression
+- Decision Tree Regression
+- Random Forest Regression
+- Gradient Boost Regression
 
-### Step 9 - Hyperparameter Tuning
+### Step 8 - Hyperparameter Tuning
+
+Used GridSearchCV to identify best hyperparameters for best model.
 
 ## Results
 
+The best supervised 
+
+![best model](visualizations/best_model_week_1_forecast_pre-COVID.png)
+![best model](visualizations/best_model_week_1_feature_importances_pre-COVID.png)
+![best model](visualizations/best_model_week_4_forecast_pre-COVID.png)
+![best model](visualizations/best_model_week_4_feature_importances_pre-COVID.png)
+![best model](visualizations/best_model_evaluation_metrics-pre-COVID.png)
+
+![best model](visualizations/best_model_week_1_forecast.png)
+![best model](visualizations/best_model_week_1_feature_importances.png)
+![best model](visualizations/best_model_week_4_forecast.png)
+![best model](visualizations/best_model_week_4_feature_importances.png)
+![best model](visualizations/best_model_evaluation_metrics.png)
+
 ## Challenges
-- getting granular enough data (e.g. mobility data at the daily level vs. monthly, or health indicators montly vs. annually)
+- extreme disruption to the seasonal pattern of influenza during and after the COVID-19 pandemic makes it difficult for the model to learn. For example:
+    - absence of 2020/2021 influenza season
+    - delayed 2021/2022 influenza season
+    - large spike in cases in the 2022/2023 influenza season
+- getting granular enough data (e.g. mobility data at the daily level vs. monthly, or health indicators montly vs. annually) 
 
 ## Future Goals
-- other models - compartmental models, particle filtering, transformers
-- other features - news article titles using NLP 
-
-## Use Cases
+- try other models - compartmental models, particle filtering, transformers
+- try other features - news article titles using NLP, COVID case counts
 
 
