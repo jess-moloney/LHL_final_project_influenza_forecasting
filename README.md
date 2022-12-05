@@ -156,16 +156,35 @@ The parameter d is related to the stationarity of the time series. Statistical m
 
 The parameter q is related to the past prediction errors of the model. The optimal q value is chosen by selecting the time lag after which autocorrelation is no longer significant.  Based on the autocorrelation plot for both the pre-COVID and full time series, I chose a q value of 6 for both models. 
 
-Although both models fit the training set well, they were both very inaccurate on the test set.
+Although both models fit the training set well, they were both very inaccurate on the test set and performed more poorly than the moving average model.
 
-![Pre-COVID](visualizations/Pre-COVID_MA_model_1_week_training.png)
+![Pre-COVID](visualizations/Pre-COVID_ARIMA_1_week.png)
 
-![Pre-COVID](visualizations/Full_Timeseries_MA_model_1_week_training.png)
+![Full](visualizations/Full_TimeSeries_ARIMA_1_week.png)
 
-![Pre-COVID](visualizations/MA_1_week_metrics.png)
-
+![Both](visualizations/Full_TimeSeries_ARIMA_1_week_metrics.png)
 
 ### Step 6 - Feature Engineering
+Health Indicators:
+To identify if health indicators had an effect on the following year's influenza cases, I plotted a correlation matrix showing the relationship between each indicator and total cases.
+
+Prior to the COVID-19 pandemic, there are some weak correlations between health indicators and influenza cases, with the Diabetes being the most highly correlated with influenza cases (R2 = 0.35). Influenza immunization in the past year and influenza cases are also weakly correlated (R2 = 0.31).
+
+![Health Indicators](visualizations/correlation_matrix_health_indicators.png)
+
+Across the full time series, there is no correlation between health indicators and influenza cases.
+
+![Health Indicators](visualizations/Full_TimeSeries_correlation_matrix_health_indicators.png)
+
+Air Traffic:
+
+
+Urban Transit:
+
+Google Trends - Flu Symptoms:
+
+Google Trends - COVID Terms:
+
 
 ### Step 7 - Building Supervised Learning Models
 
