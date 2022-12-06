@@ -19,14 +19,14 @@ Because influenza is such a significant health threat, efforts to accurately for
 ## Hypotheses
 Before looking at the data, I hypothesized that the following would be predictors of influenza detections:
 
-1. Number of search engine queries for flu symptoms
+1. Number of Canadians vaccinated against influenza
+    - I anticipated a negative correlation between influenza detections and influenza vaccinations because of higher population immunity against the virus
+2. Movement of individuals
+    - I anticipated a positive correlation between flu cases and movement because influenza virus is spread through respiratory droplets during person-to-person contact (https://www.cdc.gov/flu/about/disease/spread.htm)
+3. Number of search engine queries for flu symptoms
     - I anticipated a positive correlation between flu cases and flu symptom searches because individuals sick with these symptoms would be more likely to look them up online
 2. Number of search engine queries for COVID-related terms
     - I anticipated a negative correlation between flu cases and COVID-related terms because of reports that measures implemented to prevent the spread of COVID were also effective at preventing spread of much less virulent influenza virus (https://www.cbc.ca/news/health/covid-19-general-faq-1.5893936)
-3. Number of Canadians vaccinated against influenza
-    - I anticipated a negative correlation between influenza detections and influenza vaccinations because of higher population immunity against the virus
-4. Movement of individuals
-    - I anticipated a positive correlation between flu cases and movement because influenza virus is spread through respiratory droplets during person-to-person contact (https://www.cdc.gov/flu/about/disease/spread.htm)
 
 To test these hypotheses, I collected the following datasets:
 
@@ -60,10 +60,10 @@ I will examine whether search engine queries, mobility data and health indicator
 - saved all individual and combined dataframes as pickles
 
 ### Step 2 - Exploratory Data Analysis:
-Before building forecasts, I conducted time series analyses to better understand the data.
+Before building forecasts, I conducted exploratory analyses to better understand the data.
 
-First, I plotted the time series to get a sense of overall trends:
-![subtype](visualizations/influenza_cases_subtype_v3.png)
+First, I plotted the influenza time series data to get a sense of overall trends:
+![subtype](visualizations/influenza_cases_subtype_v4.png)
 
 There are several striking aspects to this plot:
 - there is clear seasonality to cases
@@ -118,6 +118,48 @@ Next, I made note of general descriptive statistics. Because of the clear disrup
     March 2020 to Present:
     ![COVID](visualizations/mean_weekly_cases_month_COVID.png)
 
+**Health Indicators:**
+There are no clear relationships between health indicators and influenza cases in this dataset. This may be because the health indicator data is an annual statistic, and therefore the information is not granular enough to identify relationships. Moreover, the health indicator statistics are being compared to the following year's weekly influenza cases, so it is possible that even if health indicators and influenza cases are related during the current year, that relationship may not hold for health indicators from the previous year. Influenza immunization and influenza cases show a weak correlation of R = 0.3 prior to the pandemic, and R=-0.2 over the entire time series.
+
+Prior to March 2020:
+![Health Indicators](visualizations/Pre-COVID_correlation_matrix_health_indicators.png)
+
+Full Dataset:
+![Health Indicators](visualizations/Full_TimeSeries_correlation_matrix_health_indicators.png)
+
+**International / Domestic Travel:**
+As expected, there is a steep decline in international and domestic travel at the beginning of the COVID-19 pandemic. Prior to the pandemic, there is a seasonal pattern in travel, with volume peaking in the summer months.
+![Air Traffic](visualizations/Air_Travel_Influenza_Cases.png)
+
+Between September 2015 and March 2020, there is a large negative correlation between travel volume and influenza cases (R values between -0.5 to -0.6), which is surprising, as I had hypothesized that the relationship would be in the opposite direction. 
+![Air Traffic, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_air_traffic.png)
+
+Over the time series as a whole, the relationship is in the opposite direction, with a moderate positive correlation between travel volume and influenza cases (R values between 0.19 and 0.32).
+![Air Traffic, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_air_traffic.png)
+
+**Urban Transit:**
+There was a steep decline in urban transit use in March 2020.  Although ridership has been slowly increasing, it is still far below the pre-pandemic levels. Prior to the pandemic, there does not appear to be a clear trend or seasonal pattern in urban transit use.
+![Urban Transit](visualizations/Urban_Transit_Influenza_Cases.png)
+
+Prior to March 2020, there is a weak positive correlation between urban transit ridership and total influenza cases (R = 0.25).
+
+Over the full time series, the positive correlation is stronger, with an R value of 0.45.
+
+**Google Trends - Flu Symptoms:**
+Prior to March 2020, Google searches for most flu symptoms (except fatigue and diarrhea) were highly correlated with total influenza cases.  The search terms 'fever', 'cough', and 'body aches' were most highly correlated, with R values of 0.81, 0.79 and 0.75 respectively.
+![Flu Symptoms, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_flu_symptoms.png)
+
+When dates after March 2020 are included in the time series, these correlations are greatly reduced or disappear.
+![Flu Symptoms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_flu_symptoms.png)
+
+**Google Trends - COVID Terms:**
+There are some weak correlations between COVID-19-related terminology and influenza cases prior to March 2020 (e.g., mask, coronavirus, quarantine). Other terms (e.g., lockdown, social distancing, COVID), are not correlated with influenza cases during this time period. This is to be expected, as some of these terms would have been unused or uncommon prior to March 2020.
+![COVID terms, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_COVID_terms.png)
+
+Across the full time series, there are weak negative correlations between Google searches for 'COVID-19 terms' and influenza cases.
+![COVID terms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_COVID_terms.png)
+
+
 ### Step 3 - Selection of Evaluation Metrics
 There are a number of suitable Time Series Forecast Error Metrics, each with their own advantages and disadvantages - well explained in this article: https://towardsdatascience.com/time-series-forecast-error-metrics-you-should-know-cc88b8c67f27.
 
@@ -162,18 +204,17 @@ Although both models fit the training set well, they were both inaccurate on the
 ![Both](visualizations/Full_TimeSeries_ARIMA_1_week_metrics.png)
 
 ### Step 6 - Feature Engineering
-To build a supervised learning model, I identified features that were correlated with total flu cases.
+In addition to the mobility, google search and health indicator that I found, I engineered features using the influenza time series itself.
 
 **Date Time, Lag, Window Features:**
-First, I engineered features using the influenza time series itself.
 
 **Year:** Mean weekly cases are relatively stable across the years in the time series, with the notable exceptions of 2018 (a particularly bad influenza season), and 2021 (during the height of the COVID-19 pandemic).
 ![Year](visualizations/mean_weekly_cases_year.png)
 
-**Month:**
+**Month:** Across the full time series, there is a clear seasonal pattern with cases peaking in February on average, and almost disappearing in July, August, September.
 ![Month](visualizations/mean_weekly_cases_month.png)
 
-**Season:**
+**Season:** The seasonal pattern is demonstrated even more clearly in the following plot, with winter being the worst season for influenza, followed by spring.
 ![Season](visualizations/mean_weekly_cases_season.png)
 
 The other features based on the influenza dataset are:
@@ -182,48 +223,6 @@ The other features based on the influenza dataset are:
 - expanding mean
 - weekly cases from the same week of the previous year
 
-**Health Indicators:**
-<!-- To identify if health indicators had an effect on the following year's influenza cases, I plotted a correlation matrix showing the relationship between each indicator and total cases. -->
-
-Prior to the COVID-19 pandemic, there are some weak correlations between health indicators and influenza cases, with Diabetes being the most highly correlated with influenza cases (R = 0.35). Influenza immunization in the past year and influenza cases are also weakly correlated (R = 0.31).
-
-![Health Indicators](visualizations/Pre-COVID_correlation_matrix_health_indicators.png)
-
-Across the full time series, there is no correlation between health indicators and influenza cases.
-
-![Health Indicators](visualizations/Full_TimeSeries_correlation_matrix_health_indicators.png)
-
-**Air Traffic:**
-As expected, there is a steep decline in air traffic at the beginning of the COVID-19 pandemic. Prior to the pandemic, there is a seasonal pattern in air traffic, with volume peaking in the summer months.
-![Air Traffic](visualizations/Air_Travel_Influenza_Cases.png)
-
-Between September 2015 and March 2020, there is a moderate negative correlation between air traffic volume and influenza cases (R values between -0.5 to -0.6). 
-<!-- ![Air Traffic, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_air_traffic.png) -->
-
-Over the time series as a whole, the relationship is in the opposite direction, with a weak positive correlation between air traffic volume and influenza cases (R values between 0.19 and 0.32).
-<!-- ![Air Traffic, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_air_traffic.png) -->
-
-**Urban Transit:**
-There was a steep decline in urban transit use in March 2020.  Although ridership has been slowly increasing, it is still far below the pre-pandemic levels. Prior to the pandemic, there does not appear to be a clear trend or seasonal pattern in urban transit use.
-![Urban Transit](visualizations/Urban_Transit_Influenza_Cases.png)
-
-Prior to March 2020, there is a weak positive correlation between urban transit ridership and total influenza cases (R = 0.25).
-
-Over the full time series, the positive correlation is stronger, with an R value of 0.45.
-
-**Google Trends - Flu Symptoms:**
-Prior to March 2020, Google searches for most flu symptoms (except fatigue and diarrhea) were highly correlated with total influenza cases.  The search terms 'fever', 'cough', and 'body aches' were most highly correlated, with R values of 0.81, 0.79 and 0.75 respectively.
-![Flu Symptoms, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_flu_symptoms.png)
-
-When dates after March 2020 are included in the time series, these correlations are greatly reduced or disappear.
-![Flu Symptoms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_flu_symptoms.png)
-
-**Google Trends - COVID Terms:**
-There are some weak correlations between COVID-19-related terminology and influenza cases prior to March 2020 (e.g., mask, coronavirus, quarantine). Other terms (e.g., lockdown, social distancing, COVID), are not correlated with influenza cases during this time period. This is to be expected, as some of these terms would have been unused or uncommon prior to March 2020.
-![COVID terms, Influenza Correlation](visualizations/Pre-COVID_correlation_matrix_COVID_terms.png)
-
-Across the full time series, there are weak negative correlations between Google searches for 'COVID-19 terms' and influenza cases.
-![COVID terms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_COVID_terms.png)
 
 ### Step 7 - Building Supervised Learning Models
 

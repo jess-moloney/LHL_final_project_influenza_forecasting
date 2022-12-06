@@ -21,7 +21,7 @@ def plot_target_relationship(data, feature, feature_title, target_title, color):
 
         """ 
     fig, axes = plt.subplots(1,2, sharex=False)
-    fig.suptitle(f'Mean {target_title} by {feature_title}', y=.98, va='bottom')
+    fig.suptitle(f'Mean {target_title} by {feature_title}', y=.98)
 
     sns.barplot(ax=axes[0], data=data, x=feature, y='y1', color=color, saturation=0.3)
     sns.stripplot(ax=axes[1], data=data,x=feature, y='y1', alpha = 0.7)
