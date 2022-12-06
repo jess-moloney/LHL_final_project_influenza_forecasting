@@ -48,20 +48,22 @@ To test these hypotheses, I collected the following datasets:
 I will examine whether search engine queries, mobility data and health indicators are correlated with flu cases and determine if they can be used to build a machine learning model to forecast influenza cases.
 
 ## Process
-### Step 1 - Data Preprocessing:
+### Step 1 - Data Wrangling:
+- loaded all datasets into a jupyter notebook using pandas
+- removed irrelevant observations (e.g., RSV cases, urban transit revenue)
+- addressed missing values (dropped the feature if there were too many missing values, or imputed the mean if only a few values were missing)
+- reformatted datatypes as necessary (to numeric, DateTime, etc.)
+- for all google trend, mobility, and health characteristic data: shifted the values forward one datapoint in order to use past data to predict future weekly influenza cases in a supervised learning model
 - summed detections for flu cases of each subtype every week to get total cases / week
-- extracted week and year
 - added epiweek, and extracted week ending date as datetime
-- saved 6 datasets:
-    - full time series with and without subtypes
-    - pre-COVID time series with and without subtypes
-    - COVID time series with and without subtypes
+- extracted year and month from all datasets, and then merged them together into a single dataframe
+- saved all individual and combined dataframes as pickles
 
 ### Step 2 - Exploratory Data Analysis:
 Before building forecasts, I conducted time series analyses to better understand the data.
 
 First, I plotted the time series to get a sense of overall trends:
-![subtype](visualizations/influenza_cases_subtype_v2.png)
+![subtype](visualizations/influenza_cases_subtype_v3.png)
 
 There are several striking aspects to this plot:
 - there is clear seasonality to cases
@@ -69,19 +71,16 @@ There are several striking aspects to this plot:
 - the number of cases during the 2021/2022 influenza cases is significantly lower than in previous years, and occurred later in the year
 - the number of cases in the most recent weekly report for the 2022/2023 influenza season (7,773 cases reported between November 20, 2022 and November 26, 2022) has already surpassed the peak of cases in the previous 7 influenza seasons shown.
 
-Next, I made note of general descriptive statistics. Because of the clear disruption to the time series beginning in March 2020, I have reported these statistics three ways: over the entire dataset, during the period prior to the COVID-19 pandemic, and during the period since the beginning of the COVID-19 pandemic.
-1. Baseline (mean) flu level (bar plot for these?):
+Next, I made note of general descriptive statistics. Because of the clear disruption to the time series beginning in March 2020, I have reported these statistics during the period prior to the COVID-19 pandemic, and during the period since the beginning of the COVID-19 pandemic.
+1. Baseline (mean) flu level:
     - September 2015 to March 2020: 1010 laboratory-confirmed cases per week.
     - March 2020 to present: 276 laboratory-confirmed cases per week.
-    <!-- - September 2015 to present: 733 laboratory-confirmed cases per week. -->
 
-2. Standard deviation (bar plot for these?):
+2. Standard deviation:
     - September 2015 to March 2020: 1359 laboratory-confirmed cases per week.
     - March 2020 to present: 796 laboratory-confirmed cases per week.
-    <!-- - September 2015 to to present: 1281 laboratory-confirmed cases per week. -->
 
 3. Autocorrelation:
-
     Prior to the COVID-19 pandemic, weekly influenza cases are correlated with the six or seven previous weeks of influenza cases.  The same pattern is seen in the full time series from September 2015 to present.  Between March 2020 and present, only the previous two weeks of cases are correlated with weekly case counts.
 
     ![Pre-COVID](visualizations/autocorrelation_pre-COVID.png)
@@ -91,7 +90,6 @@ Next, I made note of general descriptive statistics. Because of the clear disrup
     <!-- ![Full](visualizations/autocorrelation_full.png) -->
 
 4. Partial Autocorrelation:
-
     Prior to the COVID-19 pandemic, weekly influenza cases are directly correlated with the previous two weeks of influenza cases.  Across the full time series, and since the beginning of the COVID-19 pandemic, only the previous week of cases is directly correlated with weekly case counts.
 
     ![Pre-COVID](visualizations/partial_autocorrelation_pre-COVID.png)
@@ -101,7 +99,6 @@ Next, I made note of general descriptive statistics. Because of the clear disrup
     <!-- ![Full](visualizations/partial_autocorrelation_full.png)    -->
 
 5. Trend, Seasonality, Residual:
-
     Prior to the COVID-19 pandemic, there is a clear seasonal pattern to cases, but no clear trend. The COVID-19 pandemic disrupts the typical seasonal pattern.
 
     September 2015 to March 2020:
@@ -115,11 +112,11 @@ Next, I made note of general descriptive statistics. Because of the clear disrup
 
     The disruption to the seasonal pattern is evident when comparing the mean number of cases per month before and during the pandemic:
 
-    September 2015 to March 2020:
-    ![Pre-COVID](visualizations/monthly_mean_pre-COVID.png)
+    September 2015 to February 2020:
+    ![Pre-COVID](visualizations/mean_weekly_cases_month_pre_COVID.png)
 
     March 2020 to Present:
-    ![COVID](visualizations/monthly_mean_COVID.png)
+    ![COVID](visualizations/mean_weekly_cases_month_COVID.png)
 
 ### Step 3 - Selection of Evaluation Metrics
 There are a number of suitable Time Series Forecast Error Metrics, each with their own advantages and disadvantages - well explained in this article: https://towardsdatascience.com/time-series-forecast-error-metrics-you-should-know-cc88b8c67f27.
