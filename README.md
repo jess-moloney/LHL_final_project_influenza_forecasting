@@ -240,7 +240,7 @@ I trained a variety of Regression Models, including:
 The Gradient Boosting Regression algorithm achieved the best results, and the date time, lag, and window features were the best predictors of cases.
 
 ## Results
-The following plots show the performance of the Gradient Boosting Regression model on 1-week and 4-week ahead models. As expected the 1-week ahead model is more accurate, with predicted cases closely fitting actual cases on the test data.
+The following plots show the performance of the Gradient Boosting Regression model on 1-week and 4-week ahead models. As expected, the 1-week ahead model is more accurate, with predicted cases closely fitting actual cases on the test data.
 
 ![best model](visualizations/best_model_week_1_forecast_v3.png)
 ![best model](visualizations/best_model_week_1_feature_importances.png)
@@ -268,7 +268,7 @@ The extreme surge in influenza cases in the 2022 season so far makes it difficul
 
 Another challenge is related to the disruption to the seasonal pattern of influenza during and after the COVID-19 pandemic, which also makes it difficult for the model to learn patterns. For example, there was no 2020/2021 influenza season, and the 2021/2022 influenza season was delayed.
 
-Finally, getting granular enough data is also a challenge and limits the usefulness of incorporating non-time series data into the model.Perhaps with daily instead of monthly mobility data, or monthly instead of annual health indicators statistics, these features would be more useful predictors of influenza cases.
+Finally, getting granular enough data is also a challenge and limits the usefulness of incorporating non-time series data into the model. Perhaps with daily instead of monthly mobility data, or monthly instead of annual health indicators statistics, these features would be more useful predictors of influenza cases.
 
 ## Future Goals
 In terms of next steps, it would be interesting to try training more complex models, such as compartmental models with particle filtering, or transformer models. These models have been proven to perform well in time series forecasting for influenza.
