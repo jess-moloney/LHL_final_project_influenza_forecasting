@@ -1,0 +1,84 @@
+﻿"Cube Title","Product Id","CANSIM Id",URL,"Cube Notes","Archive Status",Frequency,"Start Reference Period","End Reference Period","Total number of dimensions",Universe,"Variable List"
+"Influenza immunization",13100492,105-4045,"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310049201",1;2;3;4,"CURRENT - a cube available to the public and that is current",Occasional,1996-01-01,2007-01-01,4,,
+
+"Dimension ID","Dimension name","Dimension Notes","Dimension Correction Notes","Dimension Definitions"
+1,Geography,,,
+2,Sex,,,
+3,"Influenza immunization",2,,
+4,Characteristics,4;5;6;7;8;10,,
+
+"Dimension ID","Member Name","Classification Code","Member ID","Parent Member ID",Terminated,"Member Notes","Member Correction Notes","Member Geo Attribute Keys","Member Definitions"
+1,Canada,[11124],1,,,,,,
+1,"Newfoundland and Labrador",[10],2,1,,,,,
+1,"Prince Edward Island",[11],3,1,,,,,
+1,"Nova Scotia",[12],4,1,,,,,
+1,"New Brunswick",[13],5,1,,,,,
+1,Quebec,[24],6,1,,,,,
+1,Ontario,[35],7,1,,,,,
+1,Manitoba,[46],8,1,,,,,
+1,Saskatchewan,[47],9,1,,,,,
+1,Alberta,[48],10,1,,,,,
+1,"British Columbia",[59],11,1,,,,,
+1,Yukon,[60],12,1,,,,,
+1,"Northwest Territories",[61],13,1,,9,,,
+1,Nunavut,[62],14,1,,9,,,
+2,"Both sexes",,1,,,,,,
+2,Males,,2,1,,,,,
+2,Females,,3,1,,,,,
+3,"Total population for the variable influenza immunization",,1,,,,,,
+3,"Influenza immunization, less than one year ago",,2,1,,,,,
+3,"Influenza immunization, 1 or more years ago",,3,1,,,,,
+3,"Never had influenza immunization",,4,1,,,,,
+3,"Influenza immunization, not stated",,5,1,,,,,
+4,"Number of persons",,1,,,,,,
+4,"Low 95% confidence interval, number of persons",,2,,,,,,
+4,"High 95% confidence interval, number of persons",,3,,,,,,
+4,"Coefficient of variation for number of persons",,4,,,,,,
+4,Percent,,5,,,,,,
+4,"Low 95% confidence interval, percent",,6,,,,,,
+4,"High 95% confidence interval, percent",,7,,,,,,
+4,"Coefficient of variation for percent",,8,,,,,,
+4,"Age-standardized rate",,9,,,,,,
+4,"Low 95% confidence interval, age-standardized rate",,10,,,,,,
+4,"High 95% confidence interval, age-standardized rate",,11,,,,,,
+4,"Coefficient of variation for age-standardized rate",,12,,,,,,
+
+Symbol Legend
+Description,Symbol
+"not available for a specific reference period",..
+"less than the limit of detection",<LOD
+"value rounded to 0 (zero) where there is a meaningful distinction between true zero and the value that was rounded",0s
+"data quality: excellent",A
+"data quality: very good",B
+"data quality: good",C
+"data quality: acceptable",D
+"use with caution",E
+"too unreliable to be published.",F
+"not applicable",...
+preliminary,p
+revised,r
+"suppressed to meet the confidentiality requirements of the Statistics Act",x
+terminated,t
+
+"Survey Code","Survey Name"
+3226,"Canadian Community Health Survey - Annual Component"
+3236,"National Population Health Survey: Household Component, Cross-sectional"
+
+"Subject Code","Subject Name"
+13,Health
+
+"Note ID",Note
+1,"Sources: Statistics Canada, Canadian Community Health Survey (CCHS), 2000/2001, 2003, 2005 and 2007; National Population Health Survey (NPHS), 1994/1995, 1996/1997 and 1998/1999, cross sectional sample, health file (household component); National Population Health Survey (NPHS), 1994/1995 and 1996/1997, cross sectional sample, health file (North component)"
+2,"Population aged 65 and over who reported when they had their last influenza immunization (flu shot)."
+3,"Comparable data are not available for 1994/1995 and 1998/1999 for the two components (household and North) of the National Population Health Survey (NPHS). Data on influenza immunization were not collected in 1996/1997 for the North component of NPHS."
+4,"Rates are age-standardized using the direct method and the 1991 Canadian Census population structure. The use of a standard population results in more meaningful comparisons because it adjusts for variations in population age distributions over time and across geographic areas."
+5,"When comparing estimates, it is important to use confidence intervals to determine if differences between values are statistically significant. Confidence intervals describe sampling variability and give an indication of the precision of a given estimate. Bootstrapping techniques were used to produce the coefficient of variation (CV) and 95% confidence intervals (CIs)."
+6,"Data with a coefficient of variation (CV) from 16.6% to 33.3% are identified as follows: (E) use with caution."
+7,"Data with a coefficient of variation (CV) greater than 33.3% were suppressed due to extreme sampling variability and are identified as follows: (F) too unreliable to be published."
+8,"Currently produced National Population Health Survey (NPHS) data (cross sectional sample, health file, household component) make use of new coordinated bootstrap weights, and as a result confidence intervals (CI) and coefficient of variations (CV) may differ from values previously published."
+9,"Nunavut and the Northwest Territories (excluding Nunavut) came into existence on April 1, 1999. To facilitate comparisons, data presented in this table for the Northwest Territories reflect the current boundaries, showing the Northwest Territories and Nunavut as separate regions."
+10,"The following standard symbols are used in this Statistics Canada table: (..) for figures not available for a specific reference period and (...) for figures not applicable."
+
+"Dimension ID","Member ID","Attribute Key",Title,Label,"Long Label",Value
+
+
