@@ -124,10 +124,10 @@ Next, I made note of general descriptive statistics. Because of the clear disrup
 There are no clear relationships between health indicators and influenza cases in this dataset. This may be because the health indicator data is an annual statistic, and therefore the information is not granular enough to identify relationships. Moreover, the health indicator statistics are being compared to the following year's weekly influenza cases, so it is possible that even if health indicators and influenza cases are related during the current year, that relationship may not hold for health indicators from the previous year. Influenza immunization and influenza cases show a weak correlation of R = 0.3 prior to the pandemic, and R=-0.2 over the entire time series.
 
 Prior to March 2020:
-    ![Health Indicators](visualizations/Pre-COVID_correlation_matrix_health_indicators.png)
+![Health Indicators](visualizations/Pre-COVID_correlation_matrix_health_indicators.png)
 
 Full Dataset:
-    ![Health Indicators](visualizations/Full_TimeSeries_correlation_matrix_health_indicators.png)
+![Health Indicators](visualizations/Full_TimeSeries_correlation_matrix_health_indicators.png)
 
 **International / Domestic Travel:**
 As expected, there is a steep decline in international and domestic travel at the beginning of the COVID-19 pandemic. Prior to the pandemic, there is a seasonal pattern in travel, with volume peaking in the summer months.
@@ -160,7 +160,6 @@ There are some weak correlations between COVID-19-related terminology and influe
 
 Across the full time series, there are weak negative correlations between Google searches for COVID-19-related terms and influenza cases.
 ![COVID terms, Influenza Correlation](visualizations/Full_TimeSeries_correlation_matrix_COVID_terms.png)
-
 
 ### Step 3 - Selection of Evaluation Metrics
 There are a number of suitable Time Series Forecast Error Metrics, each with their own advantages and disadvantages - well explained in this article: https://towardsdatascience.com/time-series-forecast-error-metrics-you-should-know-cc88b8c67f27.
@@ -227,7 +226,6 @@ The other features based on the influenza dataset are:
 - expanding mean
 - weekly cases from the same week of the previous year
 
-
 ### Step 7 - Building Supervised Learning Models
 
 I trained a variety of Regression Models, including:
@@ -237,10 +235,10 @@ I trained a variety of Regression Models, including:
 - Random Forest Regression
 - Gradient Boosting Regression
 
-The Gradient Boosting Regression algorithm achieved the best results, and the date time, lag, and window features were the best predictors of cases.
+The Gradient Boosting Regression algorithm achieved the best results. Although I trained all models with various combinations of features, the date time, lag, and window features were the best predictors of cases.
 
 ## Results
-The following plots show the performance of the Gradient Boosting Regression model on 1-week and 4-week ahead models. As expected, the 1-week ahead model is more accurate, with predicted cases closely fitting actual cases on the test data.
+The following plots show the performance of the Gradient Boosting Regression model on 1-week and 4-week ahead predictions. As expected, the 1-week ahead forecast is more accurate, with predicted cases closely fitting actual cases on the test data.
 
 ![best model](visualizations/best_model_week_1_forecast_v3.png)
 ![best model](visualizations/best_model_week_1_feature_importances.png)
